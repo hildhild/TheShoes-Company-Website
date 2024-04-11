@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../css/main.css" />
+    <script
+      src="https://kit.fontawesome.com/f776702b05.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>The Shoes</title>
+  </head>
+
+  <body>
+    <div
+      class="sign flex flex-row h-[30px] fixed top-0 left-0 right-0 z-50 items-center md:px-[20px] px-[10px] justify-between bg-[#f2f2f2] text-sm"
+    >
+      <p class="block"></p>
+      <p class="md:ml-auto md:mr-[56px] mr-[10px]">
+        <a href="./Account.html" id="userName">User1234</a>
+      </p>
+      <p class="cursor-pointer" id="logoutbutton1">
+        <a href="../index.html" id="logoutbutton1.1">Log out</a>
+      </p>
+      <p class="cursor-pointer" id="loginbutton1">
+        <a id="loginbutton1.1" href="./Login.html">Log in</a>
+      </p>
+    </div>
+    <div
+      class="header flex justify-between lg:px-[60px] px-[34px] bg-[#f2f2f2] fixed top-[30px] left-0 right-0 z-50"
+    >
+      <div class="header__logo order-2 lg:order-1">
+        <img src="../images/logo.svg" alt="" />
+      </div>
+      <div
+        class="header__navbar flex items-center order-1 lg:order-2 lg:mr-auto lg:ml-[62px]"
+      >
+        <i class="header__navbar-icon lg:hidden fa-solid fa-bars text-3xl"></i>
+        <div
+          class="header__navbar-container custom-hidden flex flex-col absolute top-[65px] left-0 right-0 items-start lg:static lg:flex-row lg:items-center bg-white lg:bg-[#f2f2f2]"
+        >
+          <div
+            class="lg:hidden header__search-container header__navbar-item w-full md:px-[25px] px-[18px] py-[10px] relative"
+          >
+            <form action="">
+              <input
+                type="text"
+                id="search-info1"
+                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 pl-2.5 pr-12"
+                placeholder="Search..."
+                required
+              />
+              <div
+                class="header__search text-2xl px-4 absolute bottom-1/2 translate-y-1/2 right-[2%]"
+              >
+                <button type="submit" class="px-2 py-1">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div class="header__navbar-item w-full">
+            <a
+              href="../index.html"
+              class="md:px-[25px] px-[18px] lg:py-[16.5px] py-[10px] block w-full text-xl font-semibold lg:text-2xl"
+              >Home</a
+            >
+          </div>
+          <div class="header__navbar-item w-full">
+            <a
+              href="./Product.html"
+              class="md:px-[25px] px-[18px] lg:py-[16.5px] py-[10px] block w-full text-xl font-semibold lg:text-2xl"
+              >Products</a
+            >
+          </div>
+          <div class="header__navbar-item w-full" id="HistoryID">
+            <a
+              id="historyLink"
+              href="./OrderHistory.html"
+              class="md:px-[25px] px-[18px] lg:py-[16.5px] py-[10px] block w-full text-xl font-semibold lg:text-2xl"
+              >History</a
+            >
+          </div>
+          <div class="header__navbar-item w-full">
+            <a
+              href="./News.html"
+              class="md:px-[25px] px-[18px] lg:py-[16.5px] py-[10px] block w-full text-xl font-semibold lg:text-2xl"
+              >News</a
+            >
+          </div>
+          <div class="header__navbar-item w-full">
+            <a
+              href="./About.html"
+              class="md:px-[25px] px-[18px] lg:py-[16.5px] py-[10px] block w-full text-xl font-semibold lg:text-2xl"
+              >About</a
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        class="header__lg-search hidden lg:block text-2xl px-4 py-[10px] cursor-pointer order-3 relative min-w-[25%]"
+      >
+        <i
+          class="fa-solid fa-magnifying-glass absolute bottom-1/2 translate-y-1/2 right-[10%]"
+        ></i>
+        <div class="header__lg-search">
+          <form action="">
+            <input
+              type="text"
+              id="search-info2"
+              class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 pl-2.5 pr-12"
+              placeholder="Search..."
+              required
+            />
+          </form>
+        </div>
+      </div>
+      <div class="header__icon flex items-center order-4">
+        <div class="header__cart text-2xl px-4 py-[16.5px] cursor-pointer">
+          <a href="./Cart.html">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </a>
+        </div>
+        <div class="header__user text-2xl px-4 py-[16.5px] cursor-pointer">
+          <a href="./Account.html" id="userName">
+            <i class="fa-solid fa-user"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div
+      class="news-detail-container my-[50px] lg:mx-[100px] md:mx-[50px] mx-[25px]"
+    >
+      <strong class="md:text-[30px] text-[20px]">Check out</strong><br /><br />
+      <div class="lg:flex">
+        <div class="w-full lg:w-[60%] p-[30px]">
+          <p class="font-semibold text-2xl">1 Customer information</p>
+          <div class="form-info pl-[25px]">
+            <div class="flex mb-[20px]">
+              <p>Already have an account?</p>
+              <a href="" class="ml-[10px] underline">Sign in instead</a>
+            </div>
+            <form>
+              <div class="pb-[20px]">
+                <label for="email" class="text-sm block mb-1">
+                  Email
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="email"
+                  id="email"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="yourmail@provider.com"
+                />
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="name" class="text-sm block mb-1">
+                  Name
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your name"
+                />
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="city" class="text-sm block mb-1"
+                  >Province/ City
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <select
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  id="city"
+                  aria-label=".form-select-sm"
+                  placeholder="Enter your name"
+                >
+                  <option value="0">Choose province/city</option>
+                </select>
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="district" class="text-sm block mb-1">
+                  District/City
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <select
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  id="district"
+                  aria-label=".form-select-sm"
+                >
+                  <option value="0" selected>Choose district/city</option>
+                </select>
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="ward" class="text-sm block mb-1">
+                  Ward
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <select
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  id="ward"
+                  aria-label=".form-select-sm"
+                >
+                  <option value="0" selected>Choose ward</option>
+                </select>
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="zipcode" class="text-sm block mb-1">
+                  Zip code
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="zipcode"
+                  id="zipcode"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your zip code"
+                />
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="address" class="text-sm block mb-1">
+                  Address
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your address"
+                />
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="phonenum" class="text-sm block mb-1">
+                  Phone number
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="phonenum"
+                  id="phonenum"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+            </form>
+          </div>
+          <hr class="border-b border-solid border-black mb-[30px]" />
+          <p class="font-semibold text-2xl">2 Payment method</p>
+          <form action="">
+            <div
+              class="flex items-center mt-[10px] px-3 lg:px-0 py-2 hover:bg-gray-200 w-full"
+            >
+              <input
+                id="payment-1"
+                type="radio"
+                value="1"
+                name="payment"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label for="payment-1" class="ms-2 text-sm"
+                >Credit card / Debit card</label
+              >
+            </div>
+            <img
+              src="../../images/credit.png"
+              alt=""
+              class="w-[300px] pl-[10px] mb-[10px]"
+            />
+            <div class="form-creditcard pl-[40px]">
+              <div class="pb-[20px]">
+                <label for="nameOnCard" class="text-sm block mb-1">
+                  Name on card
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="nameOnCard"
+                  id="nameOnCard"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your name on card"
+                />
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="cardNumber" class="text-sm block mb-1">
+                  Card number
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="cardNumber"
+                  id="cardNumber"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your card number"
+                />
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="expDate" class="text-sm block mb-1">
+                  Expiration date
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="expDate"
+                  id="expDate"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your expiration date"
+                />
+              </div>
+
+              <div class="pb-[20px]">
+                <label for="cvv" class="text-sm block mb-1">
+                  CVV
+                  <p class="text-red-600 inline-block">*</p>
+                  <i
+                    class="fa-solid fa-circle-info text-md"
+                    style="color: #000000"
+                  ></i>
+                </label>
+                <input
+                  type="text"
+                  name="cvv"
+                  id="cvv"
+                  class="bg-while-100 border-b-black border border-gray-200 rounded py-1 px-3 block focus:ring-blue-500 focus:border-blue-500 text-gray-700 w-full"
+                  placeholder="Enter your CVV"
+                />
+              </div>
+            </div>
+
+            <div
+              class="flex items-center mt-[10px] px-3 lg:px-0 py-2 hover:bg-gray-200 w-full"
+            >
+              <input
+                id="payment-2"
+                type="radio"
+                value="2"
+                name="payment"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label for="payment-2" class="ms-2 text-sm">PayPal</label>
+              <hr />
+            </div>
+            <img src="../../images/paypal.png" alt="" class="w-[100px]" />
+
+            <div
+              class="flex items-center mt-[10px] px-3 lg:px-0 py-2 hover:bg-gray-200 w-full"
+            >
+              <input
+                id="payment-3"
+                type="radio"
+                value="3"
+                name="payment"
+                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+              <label for="payment-3" class="ms-2 text-sm">Momo</label>
+              <hr />
+            </div>
+            <img
+              src="../../images/momo.jpg"
+              alt=""
+              class="w-[40px] ml-[10px] mb-[20px]"
+            />
+          </form>
+          <hr class="border-b border-solid border-black" />
+        </div>
+        <div class="w-full md:w-[60%] md:float-right md:mb-[50px] lg:w-[40%]">
+          <div class="order-summary bg-[#F2F2F2] w-full p-[30px] rounded-xl">
+            <strong class="text-xl">Order summary</strong><br /><br />
+            <div class="lg:flex">
+              <div class="w-full">
+                <div class="cart-item">
+                  <div class="flex mb-[30px]">
+                    <div class="w-1/5">
+                      <img src="../../images/puma.png" alt="" />
+                    </div>
+                    <div class="w-3/5 pl-[20px]">
+                      <p class="font-semibold text-lg mb-[10px]">
+                        Puma Men's Caven Sneaker
+                      </p>
+                      <ul class="list-disc ml-[20px]">
+                        <li>Colour: PUMA WHITE/PUMA BLACK</li>
+                        <li>Size: 8 Medium</li>
+                        <li>Quantity: 1</li>
+                      </ul>
+                    </div>
+                    <div class="w-1/5">
+                      <div class="price text-right">
+                        <p class="font-semibold">$79.99</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="cart-item">
+                  <div class="flex mb-[30px]">
+                    <div class="w-1/5">
+                      <img src="../../images/puma.png" alt="" />
+                    </div>
+                    <div class="w-3/5 pl-[20px]">
+                      <p class="font-semibold text-lg mb-[10px]">
+                        Puma Men's Caven Sneaker
+                      </p>
+                      <ul class="list-disc ml-[20px]">
+                        <li>Colour: PUMA WHITE/PUMA BLACK</li>
+                        <li>Size: 8 Medium</li>
+                        <li>Quantity: 1</li>
+                      </ul>
+                    </div>
+                    <div class="w-1/5">
+                      <div class="price text-right">
+                        <p class="font-semibold">$79.99</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="cart-item">
+                  <div class="flex mb-[30px]">
+                    <div class="w-1/5">
+                      <img src="../../images/puma.png" alt="" />
+                    </div>
+                    <div class="w-3/5 pl-[20px]">
+                      <p class="font-semibold text-lg mb-[10px]">
+                        Puma Men's Caven Sneaker
+                      </p>
+                      <ul class="list-disc ml-[20px]">
+                        <li>Colour: PUMA WHITE/PUMA BLACK</li>
+                        <li>Size: 8 Medium</li>
+                        <li>Quantity: 1</li>
+                      </ul>
+                    </div>
+                    <div class="w-1/5">
+                      <div class="price text-right">
+                        <p class="font-semibold">$79.99</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr class="border-b border-solid border-black mb-[20px]" />
+            <div class="flex">
+              <div class="w-1/2 text-left">
+                <p class="pb-[10px]">Delivery</p>
+                <p class="pb-[10px]">Subtotal</p>
+                <p class="pb-[10px]">Extimated Tax</p>
+                <p class="pb-[10px]">Shipping</p>
+              </div>
+              <div class="w-1/2 text-right">
+                <p class="pb-[10px]">Nov 10-Nov 25</p>
+                <p class="pb-[10px]">$239.97</p>
+                <p class="pb-[10px]">$0.00</p>
+                <p class="pb-[10px]">$0.00</p>
+              </div>
+            </div>
+            <hr class="border-b border-solid border-black" />
+            <div class="flex py-[30px]">
+              <div class="w-1/2 text-left">
+                <p class="font-semibold text-lg">Total</p>
+              </div>
+              <div class="w-1/2 text-right">
+                <p class="font-semibold text-lg">$239.97</p>
+              </div>
+            </div>
+            <p>
+              Please double-check your order details. Orders cannot be modified
+              once submitted.
+            </p>
+          </div>
+          <form action="" class="my-[20px]">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+            >
+              Place order
+              <i
+                class="fa-solid fa-arrow-right pl-[30px] pt-[5px]"
+                style="color: #ffffff"
+              ></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="../script/header.js"></script>
+    <script src="../script/login.js"></script>
+    <script src="../script/userPermission.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+      var citis = document.getElementById("city");
+      var districts = document.getElementById("district");
+      var wards = document.getElementById("ward");
+      var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+      };
+      var promise = axios(Parameter);
+      promise.then(function (result) {
+        renderCity(result.data);
+      });
+
+      function renderCity(data) {
+        for (const x of data) {
+          citis.options[citis.options.length] = new Option(x.Name, x.Id);
+        }
+        citis.onchange = function () {
+          district.length = 1;
+          ward.length = 1;
+          if (this.value != "") {
+            const result = data.filter((n) => n.Id === this.value);
+
+            for (const k of result[0].Districts) {
+              district.options[district.options.length] = new Option(
+                k.Name,
+                k.Id
+              );
+            }
+          }
+        };
+        district.onchange = function () {
+          ward.length = 1;
+          const dataCity = data.filter((n) => n.Id === citis.value);
+          if (this.value != "") {
+            const dataWards = dataCity[0].Districts.filter(
+              (n) => n.Id === this.value
+            )[0].Wards;
+
+            for (const w of dataWards) {
+              wards.options[wards.options.length] = new Option(w.Name, w.Id);
+            }
+          }
+        };
+      }
+    </script>
+  </body>
+</html>
