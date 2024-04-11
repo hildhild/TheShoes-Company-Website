@@ -1,0 +1,316 @@
+<?php
+require_once './config/Database.php';
+
+$connection = Database::getInstance()->getConnection();
+
+class Order
+{
+    public function get($queryParams, $allowedKeys = [], $select = [])
+    {
+        global $connection;
+
+        if (!empty($allowedKeys)) {
+            $queryParams = array_intersect_key($queryParams, array_flip($allowedKeys));
+        }
+
+        $selectClause = empty($select) ? '*' : implode(', ', $select);
+
+        $conditions = [];
+        $orderClause="";
+        foreach ($queryParams as $key => $value) {
+            switch ($key):
+                case 'product_name':
+                    $conditions[] = "Products.product_name LIKE '%$value%'";
+                    break;
+                case 'max_price':
+                    $conditions[] = "Products.price <= $value";
+                    break;
+                case 'min_price':
+                    $conditions[] = "Products.price >= $value";
+                    break;
+                case 'category':
+                    $conditions[] = "Products.category='$value'";
+                    break;
+                case 'order_by':
+                    $lowercaseValue = strtolower($value);
+                    if($lowercaseValue!="asc" && $lowercaseValue!="desc")
+                    {
+                     $orderClause =  "ORDER BY Products.price ASC";
+                    }
+                    else{
+                     $orderClause =  "ORDER BY Products.price $value";
+                    }
+                    break;
+                default:
+                    $conditions[] = "Products.$key=$value";
+            endswitch;
+        }
+        //get all the product base on condition and include thumbnail and sizes
+        $whereClause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
+        $query = "  SELECT Products.*,
+                        GROUP_CONCAT(DISTINCT Thumbnails.thumbnail) AS combined_thumbnails,
+                        GROUP_CONCAT(DISTINCT Sizes.size) AS combined_sizes
+                    FROM Products 
+                    LEFT JOIN Thumbnails ON Products.product_id = Thumbnails.product_id
+                    LEFT JOIN Sizes ON Products.product_id = Sizes.product_id
+                    $whereClause
+                    GROUP BY Products.product_id
+                    $orderClause;";
+        try {
+            $result = $connection->prepare($query);
+
+            $result->execute();
+
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    }
+    public function getCart($order_id){
+        global $connection;
+        $query= "SELECT * FROM Order_Details WHERE order_id =$order_id";
+        try {
+            
+            $result = $connection->prepare($query);
+            $result->execute();
+            $result = $result->fetchAll(PDO::FETCH_ASSOC);
+            $superTotalMoney=0;
+            for( $i=0;$i< count($result);$i++)
+            {
+                $superTotalMoney+=$result[$i]["total_money"];
+            }
+            $result[count($result)]=[ "superTotalMoney" => $superTotalMoney];
+            
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    } 
+    //GET ORDER LIST for admin 
+    public function getOrderList(){
+        global $connection;
+        $query= "SELECT * FROM Orders";
+        try {
+            
+            $result = $connection->prepare($query);
+            $result->execute();
+            $result = $result->fetchAll(PDO::FETCH_ASSOC);
+            
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    } 
+    
+    //GET the Order of a user with buying status based on $user_id
+    public function get_buying_order($user_id){
+        global $connection;
+        $query= "SELECT * FROM Orders WHERE order_status ='buying' AND user_id=$user_id";
+        try {
+            
+            $result = $connection->prepare($query);
+            $result->execute();
+
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    } 
+    // PUT Edit the status of the order_id 
+    public function editOrderStatus($order_id,$order_status){
+        global $connection;
+        $order_status = strtolower($order_status);
+        $query= "UPDATE Orders SET order_status='$order_status' WHERE order_id=$order_id";
+        try {
+            
+            $result = $connection->prepare($query);
+            $result->execute();
+        } catch (PDOException $e) {
+            echo "Unknown error in ORDER ::put: " . $e->getMessage();
+        }
+    } 
+    //CREATE buying order if there is not buying status
+    public function create_buying_order($user_id){
+        global $connection;
+        $query= "INSERT INTO Orders(order_status,user_id) VALUES('buying',$user_id)";
+        try {
+            
+            $result = $connection->prepare($query);
+            $result->execute();
+            $lastInsertedId = $connection->lastInsertId();
+            return $lastInsertedId;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    } 
+    //CREATE an Order , meaning you get the buying order and add stuffs
+    public function create_order($user_id,$order_id,$email,$user_name,$country,$province,$city,$zip_code,$address,$phone_number,
+    $card_name,$card_number,$card_expiration,$vcc){
+        global $connection;
+        $getTotalMoney=$this->getCart($order_id);
+        $total_money=$getTotalMoney[count($getTotalMoney)-1]["superTotalMoney"];
+        $query = "UPDATE Orders 
+        SET order_status='SHIPPING', user_id=$user_id, email='$email', user_name='$user_name',country='$country',province='$province',
+        city='$city',zip_code='$zip_code',address='$address',phone_number='$phone_number',card_name='$card_name',
+        card_number='$card_number',card_expiration='$card_expiration',vcc='$vcc',total_money=$total_money
+        WHERE order_id=$order_id";
+
+        try {
+            $result = $connection->prepare($query);
+            $result->execute();
+            
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    }
+
+    //DELETE an item in cart
+    public function delete_product_in_cart($order_detail_id){
+        global $connection;
+        $query= "DELETE FROM Order_Details WHERE order_detail_id=$order_detail_id";
+        try {
+            
+            $result = $connection->prepare($query);
+            $result->execute();
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    }
+    public function create_order_detail($order_id,$product_id,$size,$quantity,$price,$product_name,$thumbnail,$color){
+        global $connection;
+        $totalMoney=$price * $quantity;
+        $query= "INSERT INTO Order_Details(order_id,product_id,size,quantity,price,total_money,product_name,thumbnail,color) VALUES($order_id,$product_id,$size,$quantity,$price,$totalMoney,'$product_name','$thumbnai','$color')";
+        try {
+            $result = $connection->prepare($query);
+            $result->execute();
+            $lastInsertedId = $connection->lastInsertId();
+            return $lastInsertedId;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::get: " . $e->getMessage();
+        }
+    } 
+    public function create($data, $allowedKeys = [])
+    {
+        global $connection;
+        if (!empty($allowedKeys)) {
+            $data = array_intersect_key($data, array_flip($allowedKeys));
+        }
+        
+        $thumbnail = $data['thumbnail'];
+        $size = $data['size'];
+        //remove thumbnail and size form data
+        unset($data['thumbnail']);
+        unset($data['size']);
+        
+        $keys = array_keys($data);
+        $values = array_values($data);
+        $query = "INSERT INTO Products (" . implode(", ", $keys) . ") VALUES ('" . implode("', '", $values) . "')";
+        try {
+            $result = $connection->prepare($query);
+            $result->execute();
+            $lastInsertedId = $connection->lastInsertId();
+            //Store the thumbnail
+            foreach ($thumbnail as $value) {
+            $query_thumbnail= "INSERT INTO Thumbnails (product_id,thumbnail) VALUES (" . $lastInsertedId . ",'" . $value . "')" ;       // dont forget that thumnail is string so must add ' '
+
+             $a = $connection->prepare($query_thumbnail);
+             $a->execute();
+            }
+            
+            // Store the size
+            foreach ($size as $value) {
+                $query_size= "INSERT INTO Sizes (product_id,size) VALUES (" . $lastInsertedId . "," . $value . ")" ;
+                 $b = $connection->prepare($query_size);
+                 $b->execute();
+                }
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCTS::create: " . $e->getMessage();
+        }
+    }
+    
+    public function update($product_id, $data, $allowedKeys = [])
+    {
+        global $connection;
+
+        if (!empty($allowedKeys)) {
+            $data = array_intersect_key($data, array_flip($allowedKeys));
+        }
+        
+        $thumbnail = $data['thumbnail'];
+        $size = $data['size'];
+        //remove thumbnail and size form data
+        unset($data['thumbnail']);
+        unset($data['size']);
+        
+        foreach ($data as $key => $value) {
+            $updates[] = "$key='$value'";
+        }
+        
+        $query = "UPDATE Products SET " . implode(", ", $updates) . " WHERE product_id=$product_id";
+        
+
+        try {
+            $result = $connection->prepare($query);
+
+            $result->execute();
+            
+            //delete the thumbnail
+            $query_thumbnail_delete= "DELETE FROM Thumbnails WHERE product_id=$product_id";     // dont forget that thumnail is string so must add ' '
+    
+            $delete_thumbnail = $connection->prepare($query_thumbnail_delete);
+            $delete_thumbnail->execute();
+
+            //update the thumbnail     
+            foreach ($thumbnail as $value) {
+                $query_thumbnail_update= "INSERT INTO Thumbnails (product_id,thumbnail) VALUES ($product_id,'$value')" ;       // dont forget that thumnail is string so must add ' '
+    
+                 $update_thumbnail = $connection->prepare($query_thumbnail_update);
+                 $update_thumbnail->execute();
+                }
+            // //delete the size
+            $query_size_delete= "DELETE FROM Sizes WHERE product_id='$product_id'";     // dont forget that thumnail is string so must add ' '
+    
+            $delete_size = $connection->prepare($query_size_delete);
+            $delete_size->execute();
+
+            //update the size     
+            foreach ($size as $value) {
+                $query_size_update= "INSERT INTO Sizes (product_id,size) VALUES ($product_id,$value)" ;
+                
+                $update_size = $connection->prepare($query_size_update);
+                $update_size->execute();
+                }
+                // echo "asdas";
+                    
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::update: " . $e->getMessage();
+        }
+    }
+   
+    public function delete($product_id)
+    {
+        global $connection;
+
+        $query = "DELETE FROM Products WHERE product_id='$product_id'";
+        $query_size_delete= "DELETE FROM Sizes WHERE product_id='$product_id'"; 
+        $query_thumbnail_delete= "DELETE FROM Thumbnails WHERE product_id=$product_id";     
+
+        try {
+            //delete shoes
+            $result = $connection->prepare($query);
+            $result->execute();
+            //delete thumbnail
+            $delete_thumbnail = $connection->prepare($query_thumbnail_delete);
+            $delete_thumbnail->execute();
+            //delete size
+            $delete_size = $connection->prepare($query_size_delete);
+            $delete_size->execute();
+            return $result;
+        } catch (PDOException $e) {
+            echo "Unknown error in PRODUCT::delete: " . $e->getMessage();
+        }
+    }
+}
