@@ -1,0 +1,31 @@
+* {
+    font-family: 'Inconsolata', monospace;
+}
+
+.header__navbar-container {
+    overflow: hidden;
+    transition: all linear .25s;
+    right: 0;
+}
+
+.header__navbar-container.custom-hidden {
+    right: 100%;
+}
+
+
+.active {
+    background-color: black;
+}
+
+.my-hidden {
+    display: none !important;
+}
+.product__slider-change,
+.slider__change {
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
